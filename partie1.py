@@ -96,7 +96,7 @@ def input_move():
     res = False
 
     while not res:
-        x = input()
+        x = input("")
         if len(x) == 5:  # check in case len(move) == 5 example: a2>a3
             if x[0].islower() and x[1].isdigit() and x[2] == '>' and x[3].islower() and x[4].isdigit():
                 res = True
