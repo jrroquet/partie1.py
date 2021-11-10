@@ -96,7 +96,7 @@ def input_move():
     res = False
 
     while not res:
-        x = input()
+        x = input("")
         if len(x) == 5:  # check in case len(move) == 5 example: a2>a3
             if x[0].islower() and x[1].isdigit() and x[2] == '>' and x[3].islower() and x[4].isdigit():
                 res = True
@@ -113,7 +113,7 @@ def input_move():
             if x[0].islower() and x[1].isdigit() and x[2].isdigit() and x[3] == '>' and x[4].islower() \
                     and x[5].isdigit() and x[6].isdigit():
                 res = True
-        print("Invalid Move. Please try again.")
+
     return x
 
 
@@ -142,28 +142,29 @@ def check_move(board: list[list[int]], player: int, str_move: str):
     # replace delete the sign, we take what is before and after it
     movement = (extract_pos(x, movement[0]), extract_pos(x, movement[1]))
     # extract_pos give the coordinates of the two positions
-    if player == 1:
-        if board[movement[1][0]][movement[1][1]] == 1:  # check if initial_position is piece or a empty case
-            if movement[0][0] < movement[1][0]:  # check if player don't try to go backward
-                if board[movement[0][0]][movement[0][1]] == 0:  # if empty case, no problem player can go ahead
-                    if abs(movement[0][0] - movement[1][0]) == 1 and (abs(movement[0][1] - movement[1][1]) == 1
-                                                                      or abs(movement[0][1] - movement[1][1]) == 0):
-                        # check if player's move go ahead or in diagonal 1 line above
-                        res = True
-                if board[movement[0][0]][movement[0][1]] == 2:  # if the case is not empty, player can't go ahead
-                    if abs(movement[0][0] - movement[1][0]) == 1 and abs(movement[0][1] - movement[1][1]) == 1:
-                        # check if player's move go in diagonal 1 line above
-                        res = True
-    if player == 2:  # follow the same pattern but it's one line below
-        if board[movement[1][0]][movement[1][1]] == 2:
-            if movement[1][0] < movement[0][0]:
-                if board[movement[0][0]][movement[0][1]] == 0:
-                    if abs(movement[1][0] - movement[0][0]) == 1 and (abs(movement[1][1] - movement[0][1]) == 1
-                                                                      or abs(movement[1][1] - movement[0][1]) == 0):
-                        res = True
-                if board[movement[0][0]][movement[0][1]] == 1:
-                    if abs(movement[1][0] - movement[0][0]) == 1 and abs(movement[1][1] - movement[0][1]) == 1:
-                        res = True
+    if movement[0] is not None and movement[1] is not None:
+        if player == 1:
+            if board[movement[1][0]][movement[1][1]] == 1:  # check if initial_position is piece or a empty case
+                if movement[0][0] < movement[1][0]:  # check if player don't try to go backward
+                    if board[movement[0][0]][movement[0][1]] == 0:  # if empty case, no problem player can go ahead
+                        if abs(movement[0][0] - movement[1][0]) == 1 and (abs(movement[0][1] - movement[1][1]) == 1
+                                                                        or abs(movement[0][1] - movement[1][1]) == 0):
+                            # check if player's move go ahead or in diagonal 1 line above
+                            res = True
+                    if board[movement[0][0]][movement[0][1]] == 2:  # if the case is not empty, player can't go ahead
+                        if abs(movement[0][0] - movement[1][0]) == 1 and abs(movement[0][1] - movement[1][1]) == 1:
+                            # check if player's move go in diagonal 1 line above
+                            res = True
+        if player == 2:  # follow the same pattern but it's one line below
+            if board[movement[1][0]][movement[1][1]] == 2:
+                if movement[1][0] < movement[0][0]:
+                    if board[movement[0][0]][movement[0][1]] == 0:
+                        if abs(movement[1][0] - movement[0][0]) == 1 and (abs(movement[1][1] - movement[0][1]) == 1
+                                                                        or abs(movement[1][1] - movement[0][1]) == 0):
+                            res = True
+                    if board[movement[0][0]][movement[0][1]] == 1:
+                        if abs(movement[1][0] - movement[0][0]) == 1 and abs(movement[1][1] - movement[0][1]) == 1:
+                            res = True
     return res
 
 
